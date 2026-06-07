@@ -18,23 +18,23 @@ const Security = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 pb-20">
+    <div className="max-w-6xl mx-auto space-y-12 pb-20 transition-colors">
       <section className="text-center space-y-4">
-        <h2 className="text-4xl font-bold text-slate-900">Tarmoq Xavfsizligi</h2>
-        <p className="text-slate-600 max-w-2xl mx-auto">
+        <h2 className="text-4xl font-bold text-slate-900 dark:text-white transition-colors">Tarmoq Xavfsizligi</h2>
+        <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto transition-colors">
           Bulutli muhitda xavfsizlik "Shared Responsibility" modeliga asoslanadi. 
           Biz tarmoq darajasidagi barcha himoya qatlamlarini nazorat qilamiz.
         </p>
       </section>
 
       {/* Firewall Simulator */}
-      <section className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-xl">
+      <section className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold flex items-center gap-2">
+            <h3 className="text-2xl font-bold flex items-center gap-2 dark:text-white">
               <ShieldCheck className="text-green-600" /> Security Group Simulyatori
             </h3>
-            <p className="text-slate-600">
+            <p className="text-slate-600 dark:text-slate-400">
               Quyidagi portlarni tekshirib ko'ring. Bizning firewall qoidalarimizga ko'ra, 
               faqat Web trafik (80, 443) hamma uchun ochiq. SSH (22) va DB (3306) portlari 
               faqat ofis IP manzillari uchun cheklangan.
@@ -43,14 +43,14 @@ const Security = () => {
               <input 
                 type="text" 
                 placeholder="Port raqami (masalan: 80, 22, 3306)"
-                className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                 value={testPort}
                 onChange={(e) => setTestPort(e.target.value)}
               />
               <button 
                 onClick={runFirewallTest}
                 disabled={isTesting}
-                className="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 transition-all disabled:opacity-50"
+                className="bg-slate-900 dark:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-slate-800 dark:hover:bg-blue-700 transition-all disabled:opacity-50"
               >
                 {isTesting ? <RefreshCw className="animate-spin" size={18} /> : <Play size={18} />} Tekshirish
               </button>
@@ -62,7 +62,7 @@ const Security = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   className={`p-4 rounded-xl flex items-center gap-3 font-bold ${
-                    testResult === 'allowed' ? 'bg-green-50 text-green-700 border border-green-100' : 'bg-red-50 text-red-700 border border-red-100'
+                    testResult === 'allowed' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-900/30' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-100 dark:border-red-900/30'
                   }`}
                 >
                   {testResult === 'allowed' ? <CheckCircle /> : <XCircle />}
@@ -72,7 +72,7 @@ const Security = () => {
             </AnimatePresence>
           </div>
 
-          <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden">
+          <div className="bg-slate-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
             <h4 className="text-lg font-bold mb-6 flex items-center gap-2">
               <Lock size={18} className="text-blue-400" /> Inbound Rules (SG)
             </h4>
@@ -90,7 +90,7 @@ const Security = () => {
 
       {/* VPN Section Enhanced */}
       <div className="grid md:grid-cols-2 gap-8">
-        <div className="bg-gradient-to-br from-indigo-600 to-blue-700 p-10 rounded-[2.5rem] text-white shadow-lg">
+        <div className="bg-gradient-to-br from-indigo-600 to-blue-700 p-10 rounded-[2.5rem] text-white shadow-lg transition-transform hover:scale-[1.01]">
           <LinkIcon className="mb-6 opacity-50" size={48} />
           <h3 className="text-2xl font-bold mb-4">Site-to-Site VPN</h3>
           <p className="text-blue-100 leading-relaxed mb-6">
@@ -103,18 +103,18 @@ const Security = () => {
           </div>
         </div>
 
-        <div className="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-sm">
-          <Wifi className="text-blue-600 mb-6" size={48} />
-          <h3 className="text-2xl font-bold mb-4 text-slate-900">Client VPN</h3>
-          <p className="text-slate-600 leading-relaxed mb-6">
+        <div className="bg-white dark:bg-slate-900 p-10 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm transition-all hover:shadow-md">
+          <Wifi className="text-blue-600 dark:text-blue-400 mb-6" size={48} />
+          <h3 className="text-2xl font-bold mb-4 text-slate-900 dark:text-white">Client VPN</h3>
+          <p className="text-slate-600 dark:text-slate-400 leading-relaxed mb-6">
             Masofadan ishlovchi xodimlar uchun OpenVPN yoki AWS Client VPN yechimi. 
             MFA (Multi-Factor Authentication) bilan birga maksimal xavfsizlikni ta'minlaydi.
           </p>
           <div className="space-y-3">
-            <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-              <div className="w-3/4 h-full bg-blue-500"></div>
+            <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div className="w-3/4 h-full bg-blue-500 dark:bg-blue-600"></div>
             </div>
-            <p className="text-[10px] text-slate-400 font-bold uppercase">75 Active Connections</p>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase">75 Active Connections</p>
           </div>
         </div>
       </div>

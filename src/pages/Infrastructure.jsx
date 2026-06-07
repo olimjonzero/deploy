@@ -9,20 +9,20 @@ const Infrastructure = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-center space-y-4"
       >
-        <h2 className="text-4xl font-bold text-slate-900">Bulutli Tarmoq Arxitekturasi</h2>
-        <p className="text-slate-600 max-w-2xl mx-auto text-lg">
+        <h2 className="text-4xl font-bold text-slate-900 dark:text-white transition-colors">Bulutli Tarmoq Arxitekturasi</h2>
+        <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg transition-colors">
           VPC (Virtual Private Cloud) kompaniyaning raqamli infratuzilmasini mantiqiy izolatsiya qilish 
           va xavfsiz boshqarishning poydevori hisoblanadi.
         </p>
       </motion.section>
 
       {/* Interactive VPC Diagram */}
-      <section className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-xl overflow-hidden relative">
-        <h3 className="text-2xl font-bold mb-10 flex items-center gap-3">
+      <section className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-xl overflow-hidden relative transition-colors">
+        <h3 className="text-2xl font-bold mb-10 flex items-center gap-3 dark:text-white">
           <Network className="text-blue-600" /> Interaktiv VPC Strukturasi
         </h3>
         
-        <div className="relative border-4 border-dashed border-blue-100 rounded-[2rem] p-4 md:p-12 bg-blue-50/30">
+        <div className="relative border-4 border-dashed border-blue-100 dark:border-blue-900/30 rounded-[2rem] p-4 md:p-12 bg-blue-50/30 dark:bg-blue-900/10">
           <div className="absolute top-4 left-6 text-xs font-bold text-blue-400 uppercase tracking-widest">
             AWS Region / VPC (10.0.0.0/16)
           </div>
@@ -31,13 +31,13 @@ const Infrastructure = () => {
             {/* Public Subnet */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-green-50/50 border-2 border-green-200 rounded-3xl p-6 relative group"
+              className="bg-green-50/50 dark:bg-green-900/10 border-2 border-green-200 dark:border-green-900/30 rounded-3xl p-6 relative group transition-colors"
             >
               <div className="flex items-center justify-between mb-6">
-                <span className="flex items-center gap-2 font-bold text-green-700">
+                <span className="flex items-center gap-2 font-bold text-green-700 dark:text-green-400">
                   <Unlock size={18} /> Public Subnet
                 </span>
-                <span className="text-[10px] bg-green-200 text-green-800 px-2 py-1 rounded">10.0.1.0/24</span>
+                <span className="text-[10px] bg-green-200 dark:bg-green-900/50 text-green-800 dark:text-green-200 px-2 py-1 rounded">10.0.1.0/24</span>
               </div>
               
               <div className="space-y-4">
@@ -50,13 +50,13 @@ const Infrastructure = () => {
             {/* Private Subnet */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-red-50/50 border-2 border-red-200 rounded-3xl p-6 relative group"
+              className="bg-red-50/50 dark:bg-red-900/10 border-2 border-red-200 dark:border-red-900/30 rounded-3xl p-6 relative group transition-colors"
             >
               <div className="flex items-center justify-between mb-6">
-                <span className="flex items-center gap-2 font-bold text-red-700">
+                <span className="flex items-center gap-2 font-bold text-red-700 dark:text-red-400">
                   <Lock size={18} /> Private Subnet
                 </span>
-                <span className="text-[10px] bg-red-200 text-red-800 px-2 py-1 rounded">10.0.2.0/24</span>
+                <span className="text-[10px] bg-red-200 dark:bg-red-900/50 text-red-800 dark:text-red-200 px-2 py-1 rounded">10.0.2.0/24</span>
               </div>
 
               <div className="space-y-4">
@@ -72,7 +72,7 @@ const Infrastructure = () => {
             <motion.div 
               animate={{ opacity: [0.2, 0.5, 0.2] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="w-12 h-1 bg-blue-200"
+              className="w-12 h-1 bg-blue-200 dark:bg-blue-800"
             ></motion.div>
           </div>
         </div>

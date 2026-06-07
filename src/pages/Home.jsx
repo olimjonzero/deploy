@@ -1,4 +1,4 @@
-import { ArrowRight, ShoppingCart, Star, Tag, Truck, ShieldCheck, Zap, Download, X, Info, Search, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ShoppingCart, Tag, Truck, ShieldCheck, Zap, X, Info, Search, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -165,6 +165,8 @@ const Home = () => {
                   key={product.id}
                   product={product}
                   onClick={() => setSelectedProduct(product)}
+                  onOrder={() => handleOrder(product)}
+                  orderStatus={selectedProduct?.id === product.id ? orderStatus : null}
                 />
               ))
             ) : (
@@ -348,11 +350,11 @@ const CategoryCard = ({ img, name, count, isActive, onClick }) => (
   </motion.div>
 );
 
-const ProductCard = ({ product, onClick }) => (
+const ProductCard = ({ product, onClick, onOrder, orderStatus }) => (
   <motion.div 
     whileHover={{ y: -10 }}
     onClick={onClick}
-    className="bg-white rounded-[2rem] overflow-hidden shadow-md border border-slate-100 group cursor-pointer"
+    className="bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden shadow-md border border-slate-100 dark:border-slate-800 group cursor-pointer transition-colors"
   >
     <div className="h-64 overflow-hidden relative">
       <img 
@@ -362,32 +364,47 @@ const ProductCard = ({ product, onClick }) => (
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />
-      <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase text-slate-800 shadow-sm">
+      <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase text-slate-800 dark:text-slate-200 shadow-sm">
         {product.origin}
       </div>
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-        <span className="bg-white text-slate-900 px-6 py-2 rounded-full font-bold text-sm shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
+        <span className="bg-white dark:bg-slate-800 text-slate-900 dark:text-white px-6 py-2 rounded-full font-bold text-sm shadow-xl transform translate-y-4 group-hover:translate-y-0 transition-transform">
           Batafsil ko'rish
         </span>
       </div>
     </div>
     <div className="p-6 space-y-4">
-      <h3 className="font-bold text-slate-900 text-lg leading-tight h-12 line-clamp-2">{product.name}</h3>
+      <h3 className="font-bold text-slate-900 dark:text-white text-lg leading-tight h-12 line-clamp-2">{product.name}</h3>
       <div className="flex justify-between items-center">
         <div>
           <p className="text-[10px] text-slate-400 font-bold uppercase">Ulgurji Narx</p>
-          <p className="text-2xl font-black text-blue-600">{product.price}</p>
+          <p className="text-2xl font-black text-blue-600 dark:text-blue-400">{product.price}</p>
         </div>
         <div className="text-right">
           <p className="text-[10px] text-slate-400 font-bold uppercase">Min. Buyurtma</p>
-          <p className="font-bold text-slate-800">{product.minOrder}</p>
+          <p className="font-bold text-slate-800 dark:text-slate-200">{product.minOrder}</p>
         </div>
       </div>
       <button 
-        onClick={(e) => { e.stopPropagation(); alert("Savatga qo'shildi!"); }}
-        className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-blue-600 transition-all flex items-center justify-center gap-2"
+        onClick={(e) => { 
+          e.stopPropagation(); 
+          onOrder();
+        }}
+        disabled={orderStatus !== null}
+        className={`w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
+          orderStatus === 'success' 
+            ? 'bg-green-500 text-white' 
+            : 'bg-slate-900 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700'
+        }`}
       >
-        <ShoppingCart size={18} /> Savatga qo'shish
+        {orderStatus === 'processing' ? (
+          <Zap className="animate-spin" size={18} />
+        ) : orderStatus === 'success' ? (
+          <CheckCircle2 size={18} />
+        ) : (
+          <ShoppingCart size={18} />
+        )}
+        {orderStatus === 'processing' ? 'Tasdiqlanmoqda...' : orderStatus === 'success' ? 'Qabul qilindi!' : "Savatga qo'shish"}
       </button>
     </div>
   </motion.div>

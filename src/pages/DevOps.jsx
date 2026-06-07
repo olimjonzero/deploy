@@ -5,8 +5,14 @@ import { useState, useEffect } from 'react';
 
 const DevOps = () => {
   const [metrics, setMetrics] = useState([]);
+  const [isDark, setIsDark] = useState(document.documentElement.classList.contains('dark'));
 
   useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    
     // Real-time metrics simulation
     const interval = setInterval(() => {
       setMetrics(prev => {
@@ -22,29 +28,29 @@ const DevOps = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 pb-20">
+    <div className="max-w-6xl mx-auto space-y-12 pb-20 transition-colors">
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="text-center space-y-4"
       >
-        <h2 className="text-4xl font-bold text-slate-900">CI/CD va Avtomatlashtirish</h2>
-        <p className="text-slate-600 max-w-2xl mx-auto">
+        <h2 className="text-4xl font-bold text-slate-900 dark:text-white transition-colors">CI/CD va Avtomatlashtirish</h2>
+        <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto transition-colors">
           Dasturiy ta'minotni yetkazib berish (Delivery) va infratuzilmani monitoring qilish jarayonlari.
         </p>
       </motion.section>
 
       {/* Real-time Monitoring Section */}
-      <section className="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-xl">
+      <section className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-xl transition-colors">
         <div className="flex items-center justify-between mb-8">
-          <h3 className="text-2xl font-bold flex items-center gap-2">
+          <h3 className="text-2xl font-bold flex items-center gap-2 dark:text-white">
             <Activity className="text-red-500" /> Real-vaqtdagi Monitoring
           </h3>
           <div className="flex items-center gap-4">
-            <span className="flex items-center gap-2 text-xs font-bold text-slate-500">
+            <span className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400">
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div> CPU
             </span>
-            <span className="flex items-center gap-2 text-xs font-bold text-slate-500">
+            <span className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400">
               <div className="w-3 h-3 bg-indigo-400 rounded-full"></div> Memory
             </span>
           </div>
@@ -53,11 +59,17 @@ const DevOps = () => {
         <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={metrics}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-              <XAxis dataKey="time" fontSize={10} tickLine={false} axisLine={false} />
-              <YAxis fontSize={10} tickLine={false} axisLine={false} domain={[0, 100]} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? "#1e293b" : "#f1f5f9"} />
+              <XAxis dataKey="time" fontSize={10} tickLine={false} axisLine={false} stroke="#94a3b8" />
+              <YAxis fontSize={10} tickLine={false} axisLine={false} domain={[0, 100]} stroke="#94a3b8" />
               <Tooltip 
-                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+                contentStyle={{ 
+                  borderRadius: '12px', 
+                  border: 'none', 
+                  boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+                  backgroundColor: isDark ? '#0f172a' : '#ffffff',
+                  color: isDark ? '#ffffff' : '#000000'
+                }}
               />
               <Area type="monotone" dataKey="cpu" stroke="#3b82f6" fillOpacity={1} fill="url(#colorCpu)" />
               <Area type="monotone" dataKey="memory" stroke="#818cf8" fillOpacity={1} fill="url(#colorMem)" />
@@ -77,9 +89,9 @@ const DevOps = () => {
       </section>
 
       {/* CI/CD Pipeline Visual */}
-      <section className="bg-slate-50 p-8 rounded-[2rem] border border-slate-200">
-        <h3 className="text-xl font-bold mb-10 flex items-center gap-2">
-          <GitBranch className="text-blue-600" /> Avtomatlashtirilgan Pipeline
+      <section className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 transition-colors">
+        <h3 className="text-xl font-bold mb-10 flex items-center gap-2 dark:text-white">
+          <GitBranch className="text-blue-600 dark:text-blue-400" /> Avtomatlashtirilgan Pipeline
         </h3>
         <div className="grid md:grid-cols-4 gap-4">
           <PipelineNode icon={<Terminal />} label="Commit" status="Success" time="2m ago" />
@@ -92,23 +104,23 @@ const DevOps = () => {
       {/* IaC Code Block */}
       <section className="grid lg:grid-cols-2 gap-8">
         <div className="space-y-6">
-          <h3 className="text-2xl font-bold">Infratuzilma Kod Sifatida (IaC)</h3>
-          <p className="text-slate-600">
+          <h3 className="text-2xl font-bold dark:text-white transition-colors">Infratuzilma Kod Sifatida (IaC)</h3>
+          <p className="text-slate-600 dark:text-slate-400 transition-colors">
             Terraform yordamida tarmoq resurslarini avtomatik yaratish. Bu usul "Human Error"ni 
             nolga tushiradi va infratuzilmani versiyalash imkonini beradi.
           </p>
           <ul className="space-y-4">
-            <li className="flex gap-3 text-sm text-slate-600">
+            <li className="flex gap-3 text-sm text-slate-600 dark:text-slate-400">
               <div className="mt-1 w-2 h-2 rounded-full bg-blue-500 shrink-0"></div>
               <span>Replicability: Bir xil muhitni istalgancha qayta yaratish.</span>
             </li>
-            <li className="flex gap-3 text-sm text-slate-600">
+            <li className="flex gap-3 text-sm text-slate-600 dark:text-slate-400">
               <div className="mt-1 w-2 h-2 rounded-full bg-blue-500 shrink-0"></div>
               <span>Speed: Qo'lda sozlashdan 10 barobar tezroq.</span>
             </li>
           </ul>
         </div>
-        <div className="bg-slate-900 rounded-3xl p-6 shadow-2xl overflow-hidden font-mono text-sm">
+        <div className="bg-slate-900 rounded-3xl p-6 shadow-2xl overflow-hidden font-mono text-sm border border-white/5">
           <div className="flex gap-2 mb-4">
             <div className="w-3 h-3 rounded-full bg-red-500"></div>
             <div className="w-3 h-3 rounded-full bg-amber-500"></div>
