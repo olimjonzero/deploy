@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "node server/index.js",
-    "install-all": "npm install && cd server && npm install",
     "render-build": "npm install && npm run build && cd server && npm install"
   },
   "dependencies": {
