@@ -6,6 +6,7 @@ import Comparison from './pages/Comparison';
 import Systems from './pages/Systems';
 import Security from './pages/Security';
 import DevOps from './pages/DevOps';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/systems" element={<Systems />} />
             <Route path="/security" element={<Security />} />
             <Route path="/devops" element={<DevOps />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </main>
         <footer className="bg-white border-t border-slate-200 py-6 mt-12">

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ShoppingBag, LayoutDashboard, Share2, ShieldCheck, Server, GitBranch, Menu } from 'lucide-react';
+import { ShoppingBag, LayoutDashboard, Share2, ShieldCheck, Server, GitBranch, Menu, Settings } from 'lucide-react';
 import { useState } from 'react';
 
 const Navbar = () => {
@@ -23,6 +23,7 @@ const Navbar = () => {
             <NavLink to="/infrastructure" icon={<Server size={16} />} label="Tarmoq" />
             <NavLink to="/security" icon={<ShieldCheck size={16} />} label="Xavfsizlik" />
             <NavLink to="/devops" icon={<GitBranch size={16} />} label="DevOps" />
+            <NavLink to="/admin" icon={<Settings size={16} />} label="Admin" />
           </div>
 
           <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden p-2 text-slate-600">
@@ -40,6 +41,7 @@ const Navbar = () => {
           <MobileNavLink to="/infrastructure" label="Tarmoq Infratuzilmasi" onClick={() => setIsOpen(false)} />
           <MobileNavLink to="/security" label="Xavfsizlik" onClick={() => setIsOpen(false)} />
           <MobileNavLink to="/devops" label="DevOps / CI/CD" onClick={() => setIsOpen(false)} />
+          <MobileNavLink to="/admin" label="Admin Paneli" onClick={() => setIsOpen(false)} />
         </div>
       )}
     </nav>
