@@ -1,4 +1,4 @@
-import { ArrowRight, ShoppingCart, Star, Tag, Truck, ShieldCheck, Zap, Download, X, Info } from 'lucide-react';
+import { ArrowRight, ShoppingCart, Star, Tag, Truck, ShieldCheck, Zap, Download, X, Info, Search, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
@@ -8,6 +8,8 @@ const Home = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('Hammasi');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [orderStatus, setOrderStatus] = useState(null);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -24,9 +26,23 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  const filteredProducts = selectedCategory === 'Hammasi' 
-    ? products 
-    : products.filter(p => p.category === selectedCategory);
+  const handleOrder = (product) => {
+    setOrderStatus('processing');
+    setTimeout(() => {
+      setOrderStatus('success');
+      setTimeout(() => {
+        setOrderStatus(null);
+        setSelectedProduct(null);
+      }, 2000);
+    }, 1500);
+  };
+
+  const filteredProducts = products.filter(p => {
+    const matchesCategory = selectedCategory === 'Hammasi' || p.category === selectedCategory;
+    const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          p.description.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className="space-y-16 pb-20">
@@ -120,11 +136,24 @@ const Home = () => {
       {/* Featured Products */}
       <section className="bg-slate-50 -mx-4 px-4 py-16 space-y-10">
         <div className="max-w-6xl mx-auto space-y-10">
-          <div className="text-center space-y-2">
-            <h2 className="text-3xl font-black text-slate-900">
-              {selectedCategory === 'Hammasi' ? 'Yangi Kelgan Partiyalar' : `${selectedCategory} partiyalari`}
-            </h2>
-            <p className="text-slate-500">Bugungi eng qaynoq takliflar</p>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="text-left space-y-2">
+              <h2 className="text-3xl font-black text-slate-900">
+                {selectedCategory === 'Hammasi' ? 'Yangi Kelgan Partiyalar' : `${selectedCategory} partiyalari`}
+              </h2>
+              <p className="text-slate-500">Bugungi eng qaynoq takliflar</p>
+            </div>
+            
+            <div className="relative w-full md:w-96">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <input 
+                type="text" 
+                placeholder="Mahsulot qidirish..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
+              />
+            </div>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -213,8 +242,22 @@ const Home = () => {
                 </div>
 
                 <div className="pt-6 space-y-3">
-                  <button className="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3">
-                    <ShoppingCart size={20} /> Savatga qo'shish
+                  <button 
+                    onClick={() => handleOrder(selectedProduct)}
+                    disabled={orderStatus !== null}
+                    className={`w-full py-5 rounded-2xl font-bold transition-all shadow-xl flex items-center justify-center gap-3 ${
+                      orderStatus === 'success' 
+                        ? 'bg-green-500 text-white shadow-green-500/20' 
+                        : 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-500/20'
+                    }`}
+                  >
+                    {orderStatus === 'processing' ? (
+                      <> <Zap className="animate-spin" size={20} /> Tasdiqlanmoqda...</>
+                    ) : orderStatus === 'success' ? (
+                      <> <CheckCircle2 size={20} /> Buyurtma qabul qilindi!</>
+                    ) : (
+                      <> <ShoppingCart size={20} /> Savatga qo'shish</>
+                    )}
                   </button>
                   <button className="w-full bg-slate-50 text-slate-600 py-5 rounded-2xl font-bold hover:bg-slate-100 transition-all flex items-center justify-center gap-3">
                     <Info size={20} /> Vendor bilan bog'lanish
