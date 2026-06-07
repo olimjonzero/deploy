@@ -90,12 +90,12 @@ const Home = () => {
       <section className="space-y-8">
         <div className="flex justify-between items-end">
           <div>
-            <h2 className="text-3xl font-black text-slate-900">Mahsulot Kategoriyalari</h2>
-            <p className="text-slate-500">Eng ommabop ulgurji yo'nalishlar</p>
+            <h2 className="text-3xl font-black text-slate-900 dark:text-white">Mahsulot Kategoriyalari</h2>
+            <p className="text-slate-500 dark:text-slate-400">Eng ommabop ulgurji yo'nalishlar</p>
           </div>
           <button 
             onClick={() => setSelectedCategory('Hammasi')}
-            className={`font-bold flex items-center gap-2 transition-colors ${selectedCategory === 'Hammasi' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
+            className={`font-bold flex items-center gap-2 transition-colors ${selectedCategory === 'Hammasi' ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'}`}
           >
             Hammasini ko'rish <ArrowRight size={18} />
           </button>
@@ -134,14 +134,14 @@ const Home = () => {
       </section>
 
       {/* Featured Products */}
-      <section className="bg-slate-50 -mx-4 px-4 py-16 space-y-10">
+      <section className="bg-slate-50 dark:bg-slate-800/50 -mx-4 px-4 py-16 space-y-10 transition-colors">
         <div className="max-w-6xl mx-auto space-y-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-left space-y-2">
-              <h2 className="text-3xl font-black text-slate-900">
+              <h2 className="text-3xl font-black text-slate-900 dark:text-white">
                 {selectedCategory === 'Hammasi' ? 'Yangi Kelgan Partiyalar' : `${selectedCategory} partiyalari`}
               </h2>
-              <p className="text-slate-500">Bugungi eng qaynoq takliflar</p>
+              <p className="text-slate-500 dark:text-slate-400">Bugungi eng qaynoq takliflar</p>
             </div>
             
             <div className="relative w-full md:w-96">
@@ -151,7 +151,7 @@ const Home = () => {
                 placeholder="Mahsulot qidirish..." 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
+                className="w-full pl-12 pr-4 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
               />
             </div>
           </div>

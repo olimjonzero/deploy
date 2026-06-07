@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ShoppingCart, Users, Package, RefreshCw, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ShoppingCart, Users, Package, RefreshCw, AlertCircle, CheckCircle2, Globe, Shield, Zap, Server } from 'lucide-react';
 
 const Systems = () => {
   const [activeTab, setActiveTab] = useState('erp');
@@ -24,18 +24,33 @@ const Systems = () => {
   }, [activeTab]);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <header className="flex flex-col md:flex-row justify-between items-end gap-4">
         <div>
-          <h2 className="text-3xl font-bold text-slate-900">Biznes Boshqaruv Markazi</h2>
-          <p className="text-slate-600">ERP, CRM va WMS tizimlarining integratsiyalashgan paneli.</p>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white">Biznes Boshqaruv Markazi</h2>
+          <p className="text-slate-600 dark:text-slate-400">ERP, CRM va WMS tizimlarining integratsiyalashgan paneli.</p>
         </div>
-        <div className="flex bg-slate-200 p-1 rounded-xl">
+        <div className="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-xl">
           <TabButton active={activeTab === 'erp'} onClick={() => setActiveTab('erp')}>ERP</TabButton>
           <TabButton active={activeTab === 'crm'} onClick={() => setActiveTab('crm')}>CRM</TabButton>
           <TabButton active={activeTab === 'wms'} onClick={() => setActiveTab('wms')}>WMS</TabButton>
         </div>
       </header>
+
+      {/* Cloud Health Dashboard */}
+      <section className="bg-white dark:bg-slate-900 p-8 rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-sm">
+        <h3 className="text-xl font-bold mb-8 flex items-center gap-2 dark:text-white">
+          <Globe className="text-blue-500" /> Global Bulut Xizmatlari Holati
+        </h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <HealthBadge label="API Gateway" status="Operational" />
+          <HealthBadge label="Auth Service" status="Operational" />
+          <HealthBadge label="DB Cluster" status="Operational" />
+          <HealthBadge label="CDN Edge" status="Operational" />
+          <HealthBadge label="VPN Tunnel" status="Warning" />
+          <HealthBadge label="S3 Storage" status="Operational" />
+        </div>
+      </section>
 
       {loading ? (
         <div className="h-96 flex flex-col items-center justify-center space-y-4">
@@ -51,33 +66,43 @@ const Systems = () => {
       )}
 
       {/* Auto-scaling Demo Simulation */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-xl overflow-hidden relative">
+      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-[3rem] p-10 text-white shadow-xl overflow-hidden relative transition-all">
         <div className="relative z-10 space-y-6">
           <h3 className="text-2xl font-bold flex items-center gap-2">
             <RefreshCw size={24} /> Bulutli Auto-scaling Simulyatsiyasi
           </h3>
-          <p className="text-blue-100 max-w-2xl">
+          <p className="text-blue-100 max-w-2xl leading-relaxed">
             Tizim yuklamasi 80% dan oshganda, Auto-scaling guruhi avtomatik ravishda yangi serverlarni ishga tushiradi 
             va Load Balancer trafikni ular o'rtasida taqsimlaydi.
           </p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
             <ServerStatus id="srv-01" status="Online" load="42%" />
             <ServerStatus id="srv-02" status="Online" load="38%" />
             <ServerStatus id="srv-03" status="Scaling..." load="--" />
             <ServerStatus id="srv-04" status="Pending" load="--" />
           </div>
         </div>
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-32 -mt-32 blur-[100px]"></div>
       </section>
     </div>
   );
 };
 
+const HealthBadge = ({ label, status }) => (
+  <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 text-center space-y-2">
+    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{label}</p>
+    <div className="flex items-center justify-center gap-2">
+      <div className={`w-2 h-2 rounded-full ${status === 'Operational' ? 'bg-green-500 animate-pulse' : 'bg-amber-500'}`}></div>
+      <span className={`text-[11px] font-bold ${status === 'Operational' ? 'text-green-600' : 'text-amber-600'}`}>{status}</span>
+    </div>
+  </div>
+);
+
 const TabButton = ({ children, active, onClick }) => (
   <button
     onClick={onClick}
     className={`px-6 py-2 rounded-lg font-semibold transition-all ${
-      active ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+      active ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-400 shadow-sm' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
     }`}
   >
     {children}

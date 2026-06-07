@@ -7,11 +7,12 @@ import Systems from './pages/Systems';
 import Security from './pages/Security';
 import DevOps from './pages/DevOps';
 import Admin from './pages/Admin';
+import CloudCost from './pages/CloudCost';
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-slate-50 transition-colors duration-300 dark:bg-slate-900">
         <Navbar />
         <main className="container mx-auto px-4 py-8">
           <Routes>
@@ -22,6 +23,7 @@ function App() {
             <Route path="/security" element={<Security />} />
             <Route path="/devops" element={<DevOps />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/cost" element={<CloudCost />} />
           </Routes>
         </main>
         <footer className="bg-white border-t border-slate-200 py-6 mt-12">
