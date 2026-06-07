@@ -9,7 +9,7 @@ const Systems = () => {
   const fetchData = async (type) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/data/${type}`);
+      const response = await fetch(`/api/data/${type}`);
       const result = await response.json();
       setData(result);
     } catch (error) {

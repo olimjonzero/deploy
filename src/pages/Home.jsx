@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/data/wms');
+        const response = await fetch('/api/data/wms');
         const data = await response.json();
         setProducts(data.products);
       } catch (error) {
