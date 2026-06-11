@@ -12,7 +12,76 @@ import {
   CheckCircle2,
   Search
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+
+// Mock data for local development (when backend is not running)
+const MOCK_PRODUCTS = [
+  { 
+    id: 1,
+    name: "Erkaklar Klassik Kostyumi (Premium)", 
+    category: "Ustki kiyim", 
+    count: "450", 
+    status: "Yetarli", 
+    price: "$45.00",
+    origin: "Turkiya",
+    material: "100% Jun",
+    description: "Turkiyaning eng sifatli matolaridan tayyorlangan premium klassik kostyum.",
+    img: "https://images.unsplash.com/photo-1594932224828-b4b059b6ff6f?auto=format&fit=crop&q=80&w=500",
+    minOrder: "10 dona"
+  },
+  { 
+    id: 2,
+    name: "Ayollar Bahorgi Trenchi", 
+    category: "Ustki kiyim", 
+    count: "1120", 
+    status: "Yetarli", 
+    price: "$28.00",
+    origin: "Xitoy",
+    material: "Paxta",
+    description: "Zamonaviy dizayndagi ayollar trenchi.",
+    img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=500",
+    minOrder: "12 dona"
+  },
+  { 
+    id: 3,
+    name: "Slim Fit Djinni Shim (Vintage)", 
+    category: "Djinni shimlar", 
+    count: "890", 
+    status: "Yetarli", 
+    price: "$18.00",
+    origin: "O'zbekiston",
+    material: "Denim",
+    description: "Sifatli va hamyonbop denim shimlar.",
+    img: "https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&q=80&w=500",
+    minOrder: "50 dona"
+  },
+  { 
+    id: 4,
+    name: "Kechki Ipak Libosi", 
+    category: "Ayollar liboslari", 
+    count: "150", 
+    status: "Kam qolgan", 
+    price: "$65.00",
+    origin: "Turkiya",
+    material: "Ipak",
+    description: "Bayramlar va tantanali tadbirlar uchun maxsus oqshom libosi.",
+    img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&q=80&w=500",
+    minOrder: "5 dona"
+  },
+  { 
+    id: 5,
+    name: "Bolalar Paxtali Kombinezoni", 
+    category: "Bolalar kiyimi", 
+    count: "600", 
+    status: "Yetarli", 
+    price: "$12.00",
+    origin: "O'zbekiston",
+    material: "100% Paxta",
+    description: "Chaqaloqlar uchun yumshoq va xavfsiz kiyimlar.",
+    img: "https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&q=80&w=500",
+    minOrder: "30 dona"
+  }
+];
 
 const Admin = () => {
   const [products, setProducts] = useState([]);
@@ -24,10 +93,12 @@ const Admin = () => {
     const fetchProducts = async () => {
       try {
         const response = await fetch('/api/data/wms');
+        if (!response.ok) throw new Error('Network error');
         const data = await response.json();
         setProducts(data.products);
       } catch (error) {
-        console.error('Error fetching products:', error);
+        console.warn('Falling back to mock data:', error);
+        setProducts(MOCK_PRODUCTS); // Use mock if API fails
       } finally {
         setLoading(false);
       }
